@@ -2,23 +2,12 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 import psycopg2 as dbapi2
 from models import User, Rating, Movie
 from database import Database
-from forms import SigninForm, SignUpForm, AdminMovieAddForm, AddFriendForm
+from forms import SigninForm, SignUpForm, AdminMovieAddForm, AddFriendForm, AdminMovieUpdateForm
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 
 def sign_in():
     form = SigninForm(request.form)
-    database = Database()
-    database.create_user()
-    database.create_admin()
-    database.create_admin_added()
-    database.create_favorites()
-    database.create_friends()
-    database.create_movie()
-    database.create_ratings()
-    database.add_user(User(0, "admin_account", "123456789",
-                           "1998-08-06", "admin@gmail.com"))
-    database.add_admin(1)
     if request.method == 'POST' and form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -152,9 +141,38 @@ def admin_page():
     return render_template("admin_page.html", form=form)
 
 
+@ login_required
+def delete_movie(movie_id):
+    user_id = current_user.get_id()
+    if request.method == 'POST':
+        movie_title = form.movie_title.data
+        movie_description = form.movie_description.data
+        movie_image = form.movie_image.data
+        database = Database()
+        if database.is_user_admin(user_id):
+            database.delete_movie(movie_id)
+    return redirect("/")
+
+
+@ login_required
+def update_movie(movie_id):
+    user_id = current_user.get_id()
+    form = AdminMovieUpdateForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        movie_title = form.movie_title.data
+        movie_description = form.movie_description.data
+        movie_image = form.movie_image.data
+        database = Database()
+        database.update_movie(
+            Movie(movie_id, movie_title, movie_description, movie_image, None))
+    return render_template("admin_page.html", form=form)
+
+
 def movies_page():
     user_id = current_user.get_id()
     is_logged_in = user_id != None
     database = Database()
+    if is_logged_in:
+        is_admin = database.is_user_admin(user_id)
     movies = database.get_all_movies()
-    return render_template("index.html", movies=movies, is_logged_in=is_logged_in)
+    return render_template("index.html", movies=movies, is_logged_in=is_logged_in, is_admin=is_admin)

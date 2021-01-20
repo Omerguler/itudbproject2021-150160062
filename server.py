@@ -29,9 +29,14 @@ app.add_url_rule("/user/<username>", view_func=views.user_profile,
                  methods=['GET', 'POST'])
 app.add_url_rule("/movie/<movie_id>", view_func=views.movie_details,
                  methods=['GET', 'POST'])
+app.add_url_rule("/update_movie/<movie_id>", view_func=views.update_movie,
+                 methods=['GET', 'POST'])
+app.add_url_rule("/delete_movie/<movie_id>", view_func=views.delete_movie,
+                 methods=['GET', 'POST'])
 app.add_url_rule("/signout", view_func=views.sign_out, methods=['GET', 'POST'])
 app.add_url_rule("/admin_page", view_func=views.admin_page,
                  methods=['GET', 'POST'])
+
 lm.init_app(app)
 lm.login_view = "sign_in"
 

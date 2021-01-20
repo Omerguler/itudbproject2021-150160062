@@ -68,6 +68,13 @@
         <h5 class="card-title">{{movie.movie_title}}</h5>
         <p class="card-text" >{{movie.get_short_movie_description()}}</p>
         <a href="/movie/{{movie.id}}" class="btn btn-primary">Click for details</a>
+        {% if is_admin %}
+        <a href="/update_movie/{{movie.id}}" class="btn btn-secondary">Update</a>
+        <form action="/delete_movie/{{movie.id}}" method="post">
+          <input type="hidden" name="accept_request_id_mobyCoin" value="{{item.id}}" />
+          <button type="submit" class="btn btn-outline-dangr btn-sm" >Delete</button>
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>

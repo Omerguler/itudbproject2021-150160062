@@ -28,6 +28,13 @@ class AdminMovieAddForm(FlaskForm):
     submit = SubmitField('Add Movie')
 
 
+class AdminMovieUpdateForm(FlaskForm):
+    movie_title = StringField("Title", validators=[DataRequired()])
+    movie_description = StringField("Description", validators=[DataRequired()])
+    movie_image = StringField("Image Link", validators=[DataRequired()])
+    submit = SubmitField('Update Movie')
+
+
 class AddFriendForm(FlaskForm):
     friend_username = StringField(
         "Friend Username", validators=[DataRequired()])
