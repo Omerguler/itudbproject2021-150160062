@@ -42,15 +42,4 @@ lm.init_app(app)
 lm.login_view = "sign_in"
 
 if __name__ == "__main__":
-    database = Database()
-    database.create_user()
-    database.create_admin()
-    database.create_admin_added()
-    database.create_favorites()
-    database.create_friends()
-    database.create_movie()
-    database.create_ratings()
-    database.add_user(User(0, "admin_account", "123456789",
-                           "1998-08-06", "admin@gmail.com"))
-    database.add_admin(1)
     app.run()

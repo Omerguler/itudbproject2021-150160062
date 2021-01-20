@@ -203,11 +203,6 @@ class Database:
         results = self.cursor_helper.cursor_fetch_all(sql_command, variables)
         return [MovieWithRating(*item) for item in results]
 
-    def delete_rating(self, user_id, movie_id):
-        sql_command = "DELETE FROM RATINGS WHERE (user_id = %(user_id)s and movie_id = %(movie_id)s )"
-        variables = {'user_id': user_id, 'movie_id': movie_id}
-        self.cursor_helper.cursor_execute(sql_command, variables)
-
     def get_rating(self, user_id, movie_id):
         sql_command = "SELECT * FROM RATINGS WHERE (user_id = %(user_id)s and movie_id = %(movie_id)s)"
         variables = {'user_id': user_id, 'movie_id': movie_id}
