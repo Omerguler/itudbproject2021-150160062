@@ -1,0 +1,121 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgba(0, 89, 179,0.85)" >
+        <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item-active">
+                    <a class="nav-link" href="/home_page" method="post">Home</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                    <a class="nav-link" href="/request" method="post">Requests</a>
+                </li>
+              <li class="nav-item">
+                    <a class="nav-link" href="/transactions" method="post">Past Transactions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/employees" method="post">Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signout" method="post">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+        <table class="table-striped" style="float:left;margin-left: 100px;border: 1px solid black;align-content: center;margin-top:100px">
+      <tr style="border: 1px solid black;">
+        <th style="border: 1px solid black;">Receiver</th>
+        <th style="border: 1px solid black;">Cash</th>
+        <th style="border: 1px solid black;">Description</th>
+      </tr>
+      {% for item in past_cash_requests %}
+      <tr style="border: 1px solid black;">
+        <td style="border: 1px solid black;text-align: center;">{{item.receiver_name}}</td>
+        <td style="border: 1px solid black;text-align: center;">{{item.cash}}</td>
+        <td style="border: 1px solid black;text-align: center;">{{item.description}}</td>
+        <td>
+          <form action="/request" method="post">
+            <input type="hidden" name="accept_request_id_cash" value="{{item.id}}" />
+            <button type="submit" class="btn btn-outline-secondary btn-sm" >Accept</button>
+          </form>
+        </td>
+        <td>
+          <form action="/request" method="post">
+            <input type="hidden" name="decline_request_id_cash" value="{{item.id}}" />
+            <button type="submit" class="btn btn-outline-secondary btn-sm" >Decline</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <table class="table-striped" style="float:left;margin-left: 100px;border: 1px solid black;align-content: center;margin-top:100px">
+      <tr style="border: 1px solid black;">
+        <th style="border: 1px solid black;">Receiver</th>
+        <th style="border: 1px solid black;">MobyCoin</th>
+        <th style="border: 1px solid black;">Description</th>
+      </tr>
+      {% for item in past_mobyCoin_requests %}
+      <tr style="border: 1px solid black;">
+        <td style="border: 1px solid black;text-align: center;">{{item.receiver_name}}</td>
+        <td style="border: 1px solid black;text-align: center;">{{item.mobyCoin}}</td>
+        <td style="border: 1px solid black;text-align: center;">{{item.description}}</td>
+        <td>
+          <form action="/request" method="post">
+            <input type="hidden" name="accept_request_id_mobyCoin" value="{{item.id}}" />
+            <button type="submit" class="btn btn-outline-secondary btn-sm" >Accept</button>
+          </form>
+        </td>
+        <td>
+          <form action="/request" method="post">
+            <input type="hidden" name="decline_request_id_mobyCoin" value="{{item.id}}" />
+            <button type="submit" class="btn btn-outline-secondary btn-sm" >Decline</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <div style="margin-top: 100px;float: right;margin-right: 100px">
+    <div class="card card-body">
+    <h5 style="text-align: center" class="card-title">Cash Request</h5>
+    <form style="margin-top: 15px" action="/request" method="post">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <input class="form-control mb-2" type="text" name="SenderNameCash"placeholder="Sender Name" required>
+          <input class="form-control mb-2" type="text" name="DescriptionCash"placeholder="Description" required>
+          <input class="form-control mb-2" type="number" min="0" step="0.01" name="Cash"placeholder="Cash" required>
+        </div>
+        <div class="col-auto">
+          <input type="submit" class="btn btn-primary mb-2" value="Request Cash">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card card-body" style="margin-top: 50px">
+    <h5 style="text-align: center" class="card-title">MobyCoin Request</h5>
+    <form style="margin-top: 15px" action="/request" method="post">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <input class="form-control mb-2" type="text" name="SenderNameMobyCoin"placeholder="Sender Name" required>
+          <input class="form-control mb-2" type="text" name="DescriptionMobyCoin"placeholder="Description" required>
+          <input class="form-control mb-2" type="number" min="0" step="0.01" name="MobyCoin"placeholder="MobyCoin" required>
+        </div>
+        <div class="col-auto">
+          <input type="submit" class="btn btn-primary mb-2" value="Request MobyCoin">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+  </body>
+</html>
+{% endblock %}

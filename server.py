@@ -1,0 +1,39 @@
+from flask import Flask
+from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
+import views
+from database import Database
+
+lm = LoginManager()
+database = Database()
+
+
+@lm.user_loader
+def load_user(user_id):
+    return database.get_user(user_id)
+
+
+app = Flask(__name__)
+bootstrap = Bootstrap(app)
+
+app.config.from_object("settings")
+app.add_url_rule("/signin", view_func=views.sign_in, methods=['GET', 'POST'])
+app.add_url_rule("/signup", view_func=views.sign_up, methods=['GET', 'POST'])
+app.add_url_rule("/", view_func=views.movies_page, methods=['GET', 'POST'])
+app.add_url_rule("/profile", view_func=views.profile, methods=['GET', 'POST'])
+app.add_url_rule("/add_friend", view_func=views.add_friend,
+                 methods=['GET', 'POST'])
+app.add_url_rule("/friends", view_func=views.friends,
+                 methods=['GET'])
+app.add_url_rule("/user/<username>", view_func=views.user_profile,
+                 methods=['GET', 'POST'])
+app.add_url_rule("/movie/<movie_id>", view_func=views.movie_details,
+                 methods=['GET', 'POST'])
+app.add_url_rule("/signout", view_func=views.sign_out, methods=['GET', 'POST'])
+app.add_url_rule("/admin_page", view_func=views.admin_page,
+                 methods=['GET', 'POST'])
+lm.init_app(app)
+lm.login_view = "sign_in"
+
+if __name__ == "__main__":
+    app.run()

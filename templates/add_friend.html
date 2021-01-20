@@ -1,0 +1,59 @@
+{% extends "layout.html" %} 
+{% block title %}Start{% endblock %} 
+{% block head %} 
+  {{ super() }}
+  <style type="text/css">
+    .important {
+      color: #336699;
+    }
+  </style>
+
+{% endblock %} 
+
+{% block nav %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/profile" method="post">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/friends" method="post">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signout" method="post">Sign Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="w-25 p-3 mx-auto">
+    <h1 class ="mx-auto" >Friends</h1>
+    <ul class="list-group">
+    {% for friend in friends %}
+        <li class="list-group-item">
+            <a href="/user/{{friend.username}}">{{friend.username}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% from "bootstrap/form.html" import render_field %}
+<div style="margin-left: auto; margin-right: auto; width: 500px;margin-top: 100px;">
+  {% from 'bootstrap/form.html' import render_form %} {{ render_form(form) }}
+</div>
+
+{% endblock %}

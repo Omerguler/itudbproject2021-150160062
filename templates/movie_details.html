@@ -1,0 +1,98 @@
+{% extends "layout.html" %} 
+{% block title %}Start{% endblock %} 
+{% block head %} 
+  {{ super() }}
+  <style type="text/css">
+    .important {
+      color: #336699;
+    }
+  </style>
+
+{% endblock %} 
+
+{% block nav %}
+{% if is_logged_in %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/profile" method="post">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/friends" method="post">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signout" method="post">Sign Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% else %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/signin" method="post">Sign In</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div style="margin-left: 500px;">
+    <div style="width: 300px;height: 600;">
+      <img class="card-img-top" width="300px" height="500px"  src="{{movie.movie_image}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{movie.movie_title}}</h5>
+        <p class="card-text" >{{movie.movie_description}}</p>
+        {% if movie.movie_rating %}
+        <p class="card-text" >Rating: <strong>{{movie.movie_rating}}</strong></p>
+        {% else %}
+        <p class="card-text" >Rating: <strong>Not rated yet</strong></p>
+        {% endif %}
+        {% if is_logged_in %}
+            <form action="/movie/{{movie.id}}" method="post">
+                <input type="hidden" name="change_favorite" value="{{movie.id}}" />
+                <button type="submit" class="btn btn-{% if is_favorite %}danger {% else %}primary{% endif %}" >
+                    {% if is_favorite %} Unfavorite
+                    {% else %} Favorite
+                    {% endif %}
+                </button>
+            </form>
+            <form action="/movie/{{movie.id}}" method="post">
+                <input type="hidden" name="movie_id" value="{{movie.id}}" />
+                <input type="number" min="1" max="5" step="1" name="rating"
+                {% if is_rated %} value="{{rating_value}}"{% endif %} required />
+                <button type="submit" class="btn btn-primary}" >
+                    {% if is_rated %} Change Rating
+                    {% else %} Rate
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,13 @@
+/database_string.txt
+
+*.pyc
+
+__pycache__
+
+.project
+.pydevproject
+.idea
+.code
+
+venv/
+docs/build/

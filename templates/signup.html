@@ -1,0 +1,40 @@
+{% extends "layout.html" %} 
+{% block title %}Start{% endblock %} 
+{% block head %} 
+  {{ super() }}
+  <style type="text/css">
+    .important {
+      color: #336699;
+    }
+  </style>
+
+{% endblock %} 
+
+{% block nav %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/signin" method="post">Sign In</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% from "bootstrap/form.html" import render_field %}
+<div style="margin-left: auto; margin-right: auto; width: 500px;margin-top: 100px;">
+  {% from 'bootstrap/form.html' import render_form %} {{ render_form(form) }}
+</div>
+
+{% endblock %}

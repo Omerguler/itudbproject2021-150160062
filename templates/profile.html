@@ -1,0 +1,85 @@
+{% extends "layout.html" %} 
+{% block title %}Start{% endblock %} 
+{% block head %} 
+  {{ super() }}
+  <style type="text/css">
+    .important {
+      color: #336699;
+    }
+  </style>
+
+{% endblock %} 
+
+{% block nav %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/profile" method="post">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/friends" method="post">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signout" method="post">Sign Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+
+
+
+{% block content %}
+<div style="margin-left: 100px">
+    <div class="row hidden-md-up">
+        <div class="col-md-4">
+            <h1 class ="mx-auto" >Rated Movies</h1>
+            <ul class="list-group">
+            {% if rated_movies %}
+                {% for movie in rated_movies %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/movie/{{movie.movie_id}}">{{movie.movie_title}}</a>
+                    <span class="badge badge-primary badge-pill">{{movie.rating }}</span>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    You currently have no rated movies
+                </li>
+            {% endif %}
+
+            </ul>
+        </div>
+        
+        <div class="col-md-4">
+            <h1 class ="mx-auto" >Favorite Movies</h1>
+            <ul class="list-group">
+            {% if favorite_movies %}
+                {% for movie in favorite_movies %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/movie/{{movie.id}}">{{movie.movie_title}}</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    You currently have no favorite movies
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+        
+
+    </div>
+</div>
+{% endblock %}

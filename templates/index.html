@@ -1,0 +1,78 @@
+{% extends "layout.html" %} 
+{% block title %}Start{% endblock %} 
+{% block head %} 
+  {{ super() }}
+  <style type="text/css">
+    .important {
+      color: #336699;
+    }
+  </style>
+
+{% endblock %} 
+
+{% block nav %}
+{% if is_logged_in %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/profile" method="post">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/friends" method="post">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signout" method="post">Sign Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% else %}
+<nav
+  class="navbar navbar-expand-md navbar-dark fixed-top"
+  style="background-color: rgba(0, 89, 179, 0.85);margin-bottom: 200px;"
+  >
+  <!--<a class="navbar-brand" asp-action="Index" method="post">Home</a>-->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item-active">
+        <a class="nav-link" href="/" method="post">Movies</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/signin" method="post">Sign In</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row hidden-md-up">
+{% for movie in movies %}
+  <div class="col-md-2">
+    <div class="card" style="width: 250px;">
+      <img class="card-img-top" width="100px" height="300px"  src="{{movie.movie_image}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{movie.movie_title}}</h5>
+        <p class="card-text" >{{movie.get_short_movie_description()}}</p>
+        <a href="/movie/{{movie.id}}" class="btn btn-primary">Click for details</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}
+
