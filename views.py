@@ -20,7 +20,7 @@ def sign_in():
                 if(database.verify_user(password, user.password)):
                     login_user(user)
                     flash("You have logged in.", "primary")
-                    return redirect("/home_page")
+                    return redirect("/")
             flash("Invalid credentials.", "danger")
     return render_template("signin.html", form=form)
 
@@ -145,9 +145,6 @@ def admin_page():
 def delete_movie(movie_id):
     user_id = current_user.get_id()
     if request.method == 'POST':
-        movie_title = form.movie_title.data
-        movie_description = form.movie_description.data
-        movie_image = form.movie_image.data
         database = Database()
         if database.is_user_admin(user_id):
             database.delete_movie(movie_id)
@@ -158,13 +155,18 @@ def delete_movie(movie_id):
 def update_movie(movie_id):
     user_id = current_user.get_id()
     form = AdminMovieUpdateForm(request.form)
+    database = Database()
+    movie = database.get_movie(movie_id)
+    form.movie_title.data = movie.movie_title
+    form.movie_image.data = movie.movie_image
+    form.movie_description.data = movie.movie_description
     if request.method == 'POST' and form.validate_on_submit():
         movie_title = form.movie_title.data
         movie_description = form.movie_description.data
         movie_image = form.movie_image.data
-        database = Database()
         database.update_movie(
             Movie(movie_id, movie_title, movie_description, movie_image, None))
+        return redirect("/")
     return render_template("admin_page.html", form=form)
 
 
@@ -174,5 +176,7 @@ def movies_page():
     database = Database()
     if is_logged_in:
         is_admin = database.is_user_admin(user_id)
+    else:
+        is_admin = False
     movies = database.get_all_movies()
     return render_template("index.html", movies=movies, is_logged_in=is_logged_in, is_admin=is_admin)

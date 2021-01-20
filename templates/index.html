@@ -71,8 +71,7 @@
         {% if is_admin %}
         <a href="/update_movie/{{movie.id}}" class="btn btn-secondary">Update</a>
         <form action="/delete_movie/{{movie.id}}" method="post">
-          <input type="hidden" name="accept_request_id_mobyCoin" value="{{item.id}}" />
-          <button type="submit" class="btn btn-outline-dangr btn-sm" >Delete</button>
+          <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
         </form>
         {% endif %}
       </div>

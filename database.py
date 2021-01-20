@@ -115,15 +115,16 @@ class Database:
         if len(result) == 0:
             return None
         return Movie(*result)
-    
+
     def delete_movie(self, movie_id):
         sql_command = "DELETE FROM MOVIES WHERE ( id = %(movie_id)s ) "
         variables = {'movie_id': movie_id}
         self.cursor_helper.cursor_execute(sql_command, variables)
 
     def update_movie(self, movie):
-        sql_command = "UPDATE SET SET movie_title = %(movie_title)s, movie_description = %(movie_description)s, movie_image = %(movie_image)s FROM MOVIES WHERE ( id = %(movie_id)s ) "
-        variables = {'movie_title': movie.movie_title,'movie_description': movie.movie_description, 'movie_image': movie.movie_image ,'movie_id': movie.id}
+        sql_command = "UPDATE MOVIES SET movie_title = %(movie_title)s, movie_description = %(movie_description)s, movie_image = %(movie_image)s  WHERE ( id = %(movie_id)s ) "
+        variables = {'movie_title': movie.movie_title, 'movie_description': movie.movie_description,
+                     'movie_image': movie.movie_image, 'movie_id': movie.id}
         self.cursor_helper.cursor_execute(sql_command, variables)
 
     def get_all_movies(self):
