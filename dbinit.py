@@ -11,7 +11,7 @@ if __name__ == "__main__":
         print("Usage: DATABASE_URL=url python dbinit.py", file=sys.stderr)
         sys.exit(1)
     else:
-        """database = Database()
+        database = Database()
         database.create_user()
         database.create_admin()
         database.create_admin_added()
@@ -21,6 +21,6 @@ if __name__ == "__main__":
         database.create_ratings()
         database.add_user(User(0, "admin_account", "123456789",
                                "1998-08-06", "admin@gmail.com"))
-        database.add_admin(1)"""
+        database.add_admin(1)
 
     # initialize(url)
