@@ -48,7 +48,8 @@ class CursorHelper:
 
 class Database:
     def __init__(self):
-        self.connection_string = os.getenv("DATABASE_URL")
+        #self.connection_string = os.getenv("DATABASE_URL")
+        self.connection_string = "postgres://cjiwqgiq:bBBKV8OjTd-pkOtBvcwAq-YX8yJBKd3i@kandula.db.elephantsql.com:5432/cjiwqgiq"
         self.cursor_helper = CursorHelper(self.connection_string)
 
     def get_user_id(self, username):
@@ -148,7 +149,10 @@ class Database:
 
     def update_movie_rating(self, movie_id):
         rating_count = self.get_movie_rating_count(movie_id)
-        new_rating = self.calculate_rating(movie_id) / rating_count
+        try:
+            new_rating = self.calculate_rating(movie_id) / rating_count
+        except:
+            new_rating = None
         sql_command = "UPDATE MOVIES SET movie_rating = %(movie_rating)s WHERE (ID = %(movie_id)s)"
         variables = {'movie_rating': new_rating, 'movie_id': movie_id}
         self.cursor_helper.cursor_execute(sql_command, variables)
@@ -186,6 +190,11 @@ class Database:
         sql_command = "UPDATE RATINGS SET rating = %(new_rating)s WHERE (user_id = %(user_id)s and movie_id =%(movie_id)s)"
         variables = {'user_id': rating_obj.user_id,
                      'movie_id': rating_obj.movie_id, 'new_rating': rating_obj.user_rating}
+        self.cursor_helper.cursor_execute(sql_command, variables)
+
+    def delete_rating(self, user_id, movie_id):
+        sql_command = "DELETE FROM RATINGS WHERE( user_id = %(user_id)s and movie_id = %(movie_id)s )"
+        variables = {'user_id': user_id, 'movie_id': movie_id}
         self.cursor_helper.cursor_execute(sql_command, variables)
 
     def get_all_rated_movies(self, user_id):

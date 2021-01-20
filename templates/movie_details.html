@@ -89,7 +89,15 @@
                     {% endif %}
                 </button>
             </form>
-        {% endif %}
+            {% if is_rated %}
+                <form action="/movie/{{movie.id}}" method="post">
+                  <input type="hidden" name="delete_rating" value="{{movie.id}}" />
+                  <button type="submit" class="btn btn-danger" >
+                    Delete Rating
+                  </button>
+              </form>
+              {% endif %}
+            {% endif %}
       </div>
     </div>
 </div>

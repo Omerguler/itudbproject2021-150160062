@@ -119,6 +119,11 @@ def movie_details(movie_id):
                 database.add_rating(Rating(user_id, movie_id, rating))
             rating_value = rating
             database.update_movie_rating(movie_id)
+        delete_rating = request.form.get("delete_rating")
+        if delete_rating:
+            database.delete_rating(user_id, movie_id)
+            database.update_movie_rating(movie_id)
+        return redirect("/movie/"+str(movie_id))
     return render_template("movie_details.html", movie=movie, is_logged_in=is_logged_in, is_favorite=is_favorite, is_rated=is_rated, rating_value=rating_value)
 
 
