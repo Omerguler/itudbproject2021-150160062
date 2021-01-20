@@ -83,7 +83,7 @@ class Database:
             sql_command=sql_command, variables=variables)
 
     def add_admin(self, user_id):
-        sql_command = "INSERT INTO ADMINS (USER_ID) VALUES ( USER_ID = %(user_id)s )"
+        sql_command = "INSERT INTO ADMINS (USER_ID) VALUES (%(user_id)s )"
         variables = {'user_id': user_id}
         self.cursor_helper.cursor_execute(sql_command, variables)
 
