@@ -162,9 +162,10 @@ def update_movie(movie_id):
     form = AdminMovieUpdateForm(request.form)
     database = Database()
     movie = database.get_movie(movie_id)
-    form.movie_title.data = movie.movie_title
-    form.movie_image.data = movie.movie_image
-    form.movie_description.data = movie.movie_description
+    if request.method == 'GET':
+        form.movie_title.data = movie.movie_title
+        form.movie_image.data = movie.movie_image
+        form.movie_description.data = movie.movie_description
     if request.method == 'POST' and form.validate_on_submit():
         movie_title = form.movie_title.data
         movie_description = form.movie_description.data
