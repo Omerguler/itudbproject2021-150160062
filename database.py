@@ -162,6 +162,10 @@ class Database:
         self.cursor_helper.cursor_execute(sql_command=sql_command)
 
     def add_friend(self, user_id, friend_username):
+        friends = self.get_all_friends(user_id)
+        for friend in friends:
+            if friend.username == friend_username:
+                return
         friend_id = self.get_user_id(friend_username)
         sql_command = "INSERT INTO FRIENDS (USER_ID,FRIEND_ID) VALUES ( %(user_id)s, %(friend_id)s)"
         variables = {'user_id': user_id, 'friend_id': friend_id}
@@ -169,10 +173,13 @@ class Database:
             sql_command=sql_command, variables=variables)
 
     def get_all_friends(self, user_id):
-        sql_command = "SELECT FRIEND_ID,USERNAME FROM FRIENDS JOIN USERS ON friend_id = id WHERE (user_id = %(user_id)s or friend_id = %(user_id)s)"
+        sql_command = "SELECT FRIEND_ID,USERNAME FROM FRIENDS JOIN USERS ON friend_id = id WHERE (user_id = %(user_id)s)"
         variables = {'user_id': user_id}
         results = self.cursor_helper.cursor_fetch_all(
             sql_command=sql_command, variables=variables)
+        sql_command = "SELECT USER_ID,USERNAME FROM FRIENDS JOIN USERS ON user_id = id WHERE (friend_id = %(user_id)s)"
+        results.extend(self.cursor_helper.cursor_fetch_all(
+            sql_command=sql_command, variables=variables))
         return [Friend(*item) for item in results]
 
     def create_ratings(self):
